@@ -23,7 +23,7 @@ git pull          # al inicio de cada encuentro, para traer lo nuevo
 python3 encuentros/01-reglas-de-un-servicio/inventario_v1.py
 ```
 
-¿No tienes Python instalado todavía? Puedes copiar el código en https://pythontutor.com (elige Python 3) mientras lo instalas.
+¿No tienes Python instalado todavía? Puedes copiar el código en https://www.online-python.com mientras lo instalas.
 
 ## Conversación del grupo (Discussions)
 
