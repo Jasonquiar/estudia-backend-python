@@ -9,6 +9,7 @@ Repositorio del curso. Aquí encuentras el código de cada encuentro, la plantil
 ```
 encuentros/            Código de cada encuentro (demo y práctica)
   01-reglas-de-un-servicio/
+  02-donde-vive-la-regla/
 plantilla-proyecto/    Punto de partida para tu repositorio
 ```
 
