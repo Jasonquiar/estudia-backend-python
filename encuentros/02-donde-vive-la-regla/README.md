@@ -40,3 +40,7 @@ python3 taller_funcion.py
 Tu `modelo.py` lleva el brief en el docstring (actor, operación, recursos, regla, exclusiones, primer flujo), una entidad que protege su regla, un caso que se acepta, uno que se rechaza y por qué elegiste clase o función.
 
 **Para pensar antes del próximo encuentro:** ¿qué caso, si fallara sin que nadie se diera cuenta, haría más daño? El lunes esos casos se vuelven pruebas en tu repositorio.
+
+## Solución de referencia
+
+[`solucion/taller_solucion.py`](solucion/taller_solucion.py): el taller con la regla dentro del objeto. No acepta inscripciones repetidas ni sin cupo, y no deja bajar el cupo por debajo de los inscritos. Ejecútalo y compara cada línea de la salida con lo que hace el tuyo.
