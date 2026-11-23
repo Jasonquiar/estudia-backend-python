@@ -1,0 +1,7 @@
+# Nivel reto. Cópialo como .pre-commit-config.yaml, luego: python -m pip install pre-commit
+# y pre-commit install. Antes de cada commit corre Ruff.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.6
+    hooks:
+      - id: ruff-check
