@@ -1,1 +1,3 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 Aquí basta con pytest: este proyecto no tiene etiquetas.py, así que no necesita unidecode.
 pytest

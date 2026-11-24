@@ -1,2 +1,4 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 pytest para las pruebas y pytest-cov para medir la cobertura (--cov, --cov-branch).
 pytest
 pytest-cov

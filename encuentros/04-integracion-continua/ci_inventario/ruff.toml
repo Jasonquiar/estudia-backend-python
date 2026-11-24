@@ -1,3 +1,12 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 Configuración de Ruff (el linter). Es la misma en todas las carpetas del encuentro.
+#    - line-length = 110     → avisa si una línea pasa de 110 caracteres (regla E501).
+#    - target-version py311  → revisa pensando en Python 3.11.
+#    - select = E, F, C901   → qué familias de reglas revisa:
+#        E    = estilo (pycodestyle), F = errores lógicos (Pyflakes: imports sin usar,
+#        variables olvidadas, redefiniciones), C901 = complejidad ciclomática.
+#    - max-complexity = 10   → una función con más de 10 caminos se marca como C901.
+# ▶️ ruff check .   → en esta carpeta no hay hallazgos: "All checks passed!"
 line-length = 110
 target-version = "py311"
 

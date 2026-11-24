@@ -1,4 +1,13 @@
 """E02 · La regla vive en el objeto: una property protege las existencias."""
+"""
+📝 MIS NOTAS (Encuentro 4 · Cobertura y aserciones · 23 nov 2026)
+
+⚠️ SPOILER: aquí está marcado el error escondido. Si quieres cazar "a ciegas",
+   corre primero python cazar_mutantes.py tests/test_recorre_todo.py y lee esto después.
+
+🧟 Mutante 2: un error de BORDE (un solo carácter cambiado).
+🔍 Comparar con src/producto.py, línea por línea, para encontrarlo.
+"""
 
 
 class MovimientoInvalido(Exception):
@@ -33,6 +42,8 @@ class Producto:
 
     def necesita_pedido(self):
         return self.existencias < self.alerta_stock
+        # 📝 🧟 EL ERROR: "<" en vez de "<=". Con 3 existencias: 3 < 3 es False → no pide pedido.
+        #    🎯 Lo mata: probar EXACTAMENTE el borde (3, True). Con 2 o con 4 da lo mismo que el original.
 
     def __repr__(self):  # para quien programa: sin ambigüedad
         return f"Producto(sku={self.sku!r}, existencias={self.existencias})"

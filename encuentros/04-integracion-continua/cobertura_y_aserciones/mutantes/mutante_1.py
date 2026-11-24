@@ -1,4 +1,13 @@
 """E02 · La regla vive en el objeto: una property protege las existencias."""
+"""
+📝 MIS NOTAS (Encuentro 4 · Cobertura y aserciones · 23 nov 2026)
+
+⚠️ SPOILER: aquí está marcado el error escondido. Si quieres cazar "a ciegas",
+   corre primero python cazar_mutantes.py tests/test_recorre_todo.py y lee esto después.
+
+🧟 Mutante 1: falta UNA línea en registrar_salida.
+🔍 Comparar con src/producto.py, línea por línea, para encontrarlo.
+"""
 
 
 class MovimientoInvalido(Exception):
@@ -29,6 +38,10 @@ class Producto:
         if cantidad > self.existencias:
             raise MovimientoInvalido(f"Stock insuficiente: hay {self.existencias}, se piden {cantidad}")
         return self.existencias
+        # 📝 🧟 EL ERROR: falta "self.existencias -= cantidad" justo antes de este return.
+        #    registrar_salida(3) con 10 devuelve 10 y el stock no baja.
+        #    🎯 Lo mata: assert cafe.registrar_salida(3) == 7 (o assert cafe.existencias == 7).
+        #    Es el mismo defecto de producto_con_defecto.py del Encuentro 3.
 
     def necesita_pedido(self):
         return self.existencias <= self.alerta_stock

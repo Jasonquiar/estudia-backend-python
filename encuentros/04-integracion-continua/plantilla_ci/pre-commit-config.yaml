@@ -1,7 +1,18 @@
+# 📝 MIS NOTAS (Encuentro 4 · Nivel reto · 23 nov 2026)
+#
+# 🎯 pre-commit corre Ruff EN TU COMPUTADOR antes de cada git commit.
+#    Si Ruff encuentra algo, el commit se detiene y te muestra el hallazgo.
+#    🆚 La CI revisa DESPUÉS del push (en GitHub); pre-commit revisa ANTES del commit (en tu máquina).
+#    Las dos se complementan: pre-commit te avisa rápido; la CI revisa a TODOS, aunque alguien
+#    no haya instalado pre-commit.
+#
+# ⚠️ El nombre del archivo debe ser .pre-commit-config.yaml (con punto al inicio) en la raíz del repo.
+#
 # Nivel reto. Cópialo como .pre-commit-config.yaml, luego: python -m pip install pre-commit
 # y pre-commit install. Antes de cada commit corre Ruff.
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.17.6
+    # 📝 La versión de Ruff que usa pre-commit (la misma que instalé con pip: ruff 0.17.6).
     hooks:
       - id: ruff-check

@@ -1,3 +1,9 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 Dependencias para DESARROLLAR (en tu computador), además de las del proyecto.
+#    - -r requirements.txt → "incluye todo lo de requirements.txt" (así no se repite).
+#    - pytest-cov          → medir cobertura (--cov).
+#    - ruff                → linter (ruff check .).
+# ▶️ python -m pip install -r ci_inventario/requirements-dev.txt  (desde la carpeta del encuentro)
 -r requirements.txt
 pytest-cov
 ruff

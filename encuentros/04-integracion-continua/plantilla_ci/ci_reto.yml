@@ -1,3 +1,9 @@
+# 📝 MIS NOTAS (Encuentro 4 · Nivel reto · 23 nov 2026)
+#
+# 🎯 Tres mejoras sobre ci.yml:
+#    🐍 matriz de versiones de Python · 🧹 Ruff en el pipeline · 📊 un mínimo de cobertura.
+#    El job se llama "calidad" porque ya no solo prueba: también revisa estilo y cobertura.
+#
 # Nivel reto: varias versiones de Python, Ruff y un mínimo de cobertura.
 name: CI
 
@@ -11,18 +17,31 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.14"]
+    # 📝 MATRIZ: GitHub crea DOS jobs iguales, uno con 3.11 y otro con 3.14 (corren en paralelo).
+    #    Sirve para saber si tu código funciona en la versión más vieja que soportas y en la más nueva.
     steps:
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
+          # 📝 ${{ ... }} = "pon aquí el valor de la matriz para este job".
 
       - name: Instalar dependencias
         run: python -m pip install -r requirements-dev.txt
+        # 📝 requirements-dev.txt (no el normal): aquí también hacen falta pytest-cov y ruff.
 
       - name: Revisar el código con Ruff
         run: ruff check .
+        # 📝 Si Ruff encuentra algo, sale con código 1 → el job se pone ROJO y las pruebas ni corren.
 
       - name: Ejecutar pruebas con cobertura
         run: python -m pytest -v --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80
+        # 📝 --cov=src mide todo lo que hay en src/. --cov-fail-under=80 → rojo si la cobertura < 80 %.
+        #    ⚠️ Recuerda cobertura_y_aserciones/: 100 % sin asserts no detecta nada.
+        #       "Más de cobertura no es mejor si las pruebas no afirman nada."
+
+# ❓ PREGUNTAS DE REPASO (responde sin mirar arriba)
+# 1. ¿Cuántos jobs crea GitHub con esta matriz? ¿Qué pasa si uno pasa y el otro falla?
+# 2. ¿Por qué Ruff va ANTES de las pruebas?
+# 3. ¿Un 80 % de cobertura garantiza que las pruebas detectan errores? ¿Qué lo mediría mejor?

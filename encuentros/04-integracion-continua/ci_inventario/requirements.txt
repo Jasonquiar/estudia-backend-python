@@ -1,2 +1,10 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 Lo que el proyecto NECESITA para correr sus pruebas. Es lo ÚNICO que el workflow instala.
+#    - pytest    → para correr las pruebas.
+#    - unidecode → la usa src/etiquetas.py para quitar tildes ("Café" → "Cafe").
+# ⚠️ El ejercicio de la sección 1: si este archivo solo dijera "pytest", en un entorno limpio
+#    test_etiquetas.py falla al importar: ModuleNotFoundError: No module named 'unidecode'.
+#    En tu computador quizás pasaba porque unidecode ya estaba instalado "de casualidad".
+# 💡 Las líneas con # son comentarios: pip las ignora.
 pytest
 unidecode

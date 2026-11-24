@@ -1,3 +1,7 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 La misma configuración de ci_inventario/ruff.toml (ver sus notas).
+#    ⭐ Aquí la que importa es max-complexity = 10: calcular_tarifa tiene 17.
+#    La meta de la práctica es bajarla (sin cambiar el comportamiento).
 line-length = 110
 target-version = "py311"
 

@@ -1,4 +1,11 @@
 """E02 · La regla vive en el objeto: una property protege las existencias."""
+"""
+📝 MIS NOTAS (Encuentro 4 · Verde con cero pruebas · 23 nov 2026)
+
+🎯 Es el mismo Producto de siempre, sin cambios. Aquí el problema NO está en el código:
+   está en el nombre del archivo de pruebas y en el workflow.
+   (Repaso de sus reglas: ver las notas de 03-pruebas-que-detectan/producto.py.)
+"""
 
 
 class MovimientoInvalido(Exception):

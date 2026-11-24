@@ -1,3 +1,18 @@
+# 📝 MIS NOTAS (Encuentro 4 · Para tu proyecto · 23 nov 2026)
+#
+# 🎯 Es el workflow de ci_inventario/ con marcas "<--" en lo que tienes que ajustar.
+#
+# 📋 Pasos para MI proyecto (del README, "Para tu proyecto"):
+#    1. Crear requirements.txt y probarlo en un venv limpio: python -m pip install -r requirements.txt
+#    2. Copiar este archivo a .github/workflows/ci.yml (en la RAÍZ del repositorio).
+#    3. git push → en GitHub, pestaña Actions → entrar a la ejecución.
+#    4. 🔎 En el log del paso "Ejecutar pruebas": ¿cuántas pasaron? Más de cero y lo mismo que en local.
+#    5. En el README: comando local + salida, comando del workflow y estado de cada parte
+#       (ejecutado / simulado / pendiente). Sin acceso a Actions: NO llamarlo "ejecución remota".
+#    6. ruff check . → UNA mejora de legibilidad o complejidad, repetir pruebas y anotarla en el README.
+#
+# ⚠️ Si tu proyecto no tiene src/ + pytest.ini con pythonpath = src, los import pueden fallar en CI.
+#
 # Cópialo a .github/workflows/ci.yml en tu repositorio y ajusta lo marcado con <--.
 name: CI
 
@@ -22,3 +37,9 @@ jobs:
 
       - name: Ejecutar pruebas
         run: python -m pytest -v   # <-- el mismo comando que escribes en tu README
+        # 📝 Sin "| tee": así el código de salida es el de pytest. Si un día quieres guardar
+        #    la salida con tee, agrega "shell: bash" a este paso (ver ci_cero_pruebas/).
+
+# ❓ PREGUNTAS DE REPASO (responde sin mirar arriba)
+# 1. ¿Qué tres cosas marcadas con "<--" tienes que revisar antes de copiar esto?
+# 2. Después del primer push, ¿qué número tienes que comparar entre el log y tu terminal?

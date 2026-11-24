@@ -1,4 +1,5 @@
 """E01 · Diagnóstico de Python (predicción antes de ejecutar)."""
+
 """
 📝 MIS NOTAS (Encuentro 1 · Reglas de un servicio · 11 nov 2026)
 

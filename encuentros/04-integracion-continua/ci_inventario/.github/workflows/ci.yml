@@ -1,23 +1,54 @@
+# 📝 MIS NOTAS (Encuentro 4 · Integración continua · 23 nov 2026)
+#
+# 🎯 Idea central:
+#    Esta es la "receta" que GitHub sigue CADA VEZ que haces push o abres un pull request.
+#    GitHub la busca exactamente en .github/workflows/ (si está en otra carpeta, no corre).
+#    ⚠️ Aquí está dentro de ci_inventario/ solo como material de clase: en TU repositorio
+#       va en la raíz, en .github/workflows/ci.yml.
+#
+# 🧼 Lo importante: corre en un computador NUEVO y vacío. Solo tiene lo que estos pasos instalan.
+#
+# 📋 Los 4 pasos, en orden:
+#    1. Traer el código       → copia tu repositorio a la máquina.
+#    2. Preparar Python       → instala Python 3.11.
+#    3. Instalar dependencias → SOLO lo que dice requirements.txt (pytest y unidecode).
+#    4. Ejecutar pruebas      → python -m pytest -v. Si pytest sale con código ≠ 0, el job se pone rojo.
+#
+# 🔎 En el log del paso 4 busca: "7 passed". Si dice otra cosa, el verde no significa lo mismo.
 name: CI
 
 on:
   push:
   pull_request:
+# 📝 "on" = cuándo se dispara: en cada push y en cada pull request (a cualquier rama).
 
 jobs:
   pruebas:
+    # 📝 "pruebas" es el nombre del job (lo eliges tú). Un workflow puede tener varios.
     runs-on: ubuntu-latest
+    # 📝 El computador limpio: Linux. Ahí cada run: se ejecuta con bash.
     steps:
       - name: Traer el código
         uses: actions/checkout@v7
+        # 📝 "uses" = una acción ya hecha por otros. Sin este paso la máquina está vacía: no hay código.
 
       - name: Preparar Python
         uses: actions/setup-python@v7
         with:
           python-version: "3.11"
+          # 📝 Entre comillas: sin ellas, YAML podría leer 3.10 como el número 3.1.
 
       - name: Instalar dependencias
         run: python -m pip install -r requirements.txt
+        # 📝 "run" = un comando de terminal. Si falta una librería en requirements.txt, aquí NO se instala
+        #    y el paso siguiente falla (es lo que reproduce la sección 1 del README).
 
       - name: Ejecutar pruebas
         run: python -m pytest -v
+        # 📝 El MISMO comando que corres en tu computador. Así local y CI dicen lo mismo.
+        #    Sin pipe (|), el código de salida es el de pytest: si una prueba falla, rojo. ✅
+
+# ❓ PREGUNTAS DE REPASO (responde sin mirar arriba)
+# 1. ¿Qué pasaría si quitaras el paso "Traer el código"?
+# 2. ¿Por qué el paso de pruebas usa el mismo comando que escribes en tu README?
+# 3. ¿Dónde tiene que estar este archivo para que GitHub lo ejecute?

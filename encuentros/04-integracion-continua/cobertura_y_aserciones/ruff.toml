@@ -1,3 +1,5 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 La misma configuración de ci_inventario/ruff.toml (ver sus notas).
 line-length = 110
 target-version = "py311"
 

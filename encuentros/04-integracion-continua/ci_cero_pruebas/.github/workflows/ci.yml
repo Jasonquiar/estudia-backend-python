@@ -1,3 +1,16 @@
+# 📝 MIS NOTAS (Encuentro 4 · Verde con cero pruebas · 23 nov 2026)
+#
+# 🎯 Idea central:
+#    🤥 Este workflow sale VERDE aunque no corre ni una sola prueba. Dos problemas juntos:
+#    1. tests/prueba_producto.py no empieza por "test_" → pytest no lo encuentra
+#       → "collected 0 items ... no tests ran" → pytest sale con código 5.
+#    2. El último paso usa "| tee": el código que ve GitHub es el de tee (0), no el de pytest (5).
+#
+# 🏪 Analogía: el inspector firma "todo en orden" sin haber abierto la nevera.
+#
+# 🔎 La línea del log que lo delata:  "collected 0 items"  y  "no tests ran".
+#
+# 🆚 Compáralo con ci_inventario/.github/workflows/ci.yml: allá no hay pipe.
 name: CI
 
 on:
@@ -9,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      # 📝 Sin "name:", GitHub muestra el paso como "Run actions/checkout@v7".
 
       - uses: actions/setup-python@v7
         with:
@@ -18,3 +32,18 @@ jobs:
 
       - name: Ejecutar pruebas y guardar la salida
         run: python -m pytest -v | tee salida_pytest.txt
+        # 📝 ⭐ AQUÍ está la trampa.
+        #    - "|" manda la salida de pytest a tee; tee la muestra y la guarda en salida_pytest.txt.
+        #    - Sin "shell:" declarado, GitHub corre esto con "bash -e" SIN pipefail:
+        #      el código del pipe es el del ÚLTIMO comando (tee = 0) → ✅ verde mentiroso.
+        #    🔧 Dos arreglos (hacen cosas distintas):
+        #      a) Que pytest SÍ encuentre pruebas: renombrar a tests/test_producto.py.
+        #      b) Que el job no mienta: agregar  shell: bash  a este paso (GitHub usa bash -eo pipefail)
+        #         o escribir  set -o pipefail; python -m pytest -v | tee salida_pytest.txt
+        #    💡 pipefail solo vuelve ROJO el verde mentiroso; no hace que corran pruebas.
+        #    Con los dos arreglos: 5 passed y el job refleja de verdad lo que pasó.
+
+# ❓ PREGUNTAS DE REPASO (responde sin mirar arriba)
+# 1. ¿Qué código de salida deja pytest cuando no encuentra pruebas? ¿Y el pipe completo?
+# 2. Si solo agregas pipefail (sin renombrar), ¿de qué color queda el job? ¿Corrió alguna prueba?
+# 3. Si solo renombras (sin pipefail) y luego una prueba falla, ¿de qué color queda? ¿Por qué?

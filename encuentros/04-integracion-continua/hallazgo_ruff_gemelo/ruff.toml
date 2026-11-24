@@ -1,3 +1,6 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 La misma configuración de ci_inventario/ruff.toml (ver sus notas).
+#    Los 3 hallazgos de esta carpeta son de la familia F (Pyflakes).
 line-length = 110
 target-version = "py311"
 

@@ -1,3 +1,102 @@
+> **📝 MIS NOTAS** · Encuentro 4 · Integración continua, calidad y regresión · 25 nov 2026
+> Este bloque lo escribí yo para estudiar. Debajo de la línea está el material original del profesor, sin cambios.
+
+## 📝 ¿De qué trata este curso? (explicado para alguien nuevo)
+
+Cuando usas una app (pedir un domicilio, reservar una cita, comprar en línea) ves botones y pantallas. Eso es el **frontend**. Detrás hay un programa que recibe tus pedidos, decide si se pueden hacer y guarda la información. Eso es el **backend**, y es lo que aprendemos a construir en este curso, usando **Python**.
+
+Al final del curso cada persona tiene **su propio proyecto**: una API pequeña con **reglas de negocio**, **pruebas automáticas**, **integración continua** y una **base de datos** (MongoDB), ordenada en capas que puedas explicar.
+
+## 📝 ¿Qué enseña este Encuentro 4?
+
+**La pregunta del día:** *cuando el pipeline dice verde, ¿qué se ejecutó de verdad?*
+
+En el Encuentro 3 escribimos **pruebas que detectan**. Ahora hacemos que esas pruebas corran **solas, en un computador limpio**, cada vez que alguien hace `git push`. Eso es la **integración continua (CI)**. Y aprendemos a no creerle ciegamente al ✅ verde.
+
+🏪 **Analogía:** la CI es como el **inspector de sanidad** que visita la tienda cada vez que llega mercancía nueva. No le importa que "en mi casa la nevera funciona": revisa con **sus** instrumentos, en **su** visita. Pero si el inspector firma el acta sin abrir la nevera (cero pruebas), la firma no vale nada. Por eso hay que **leer el acta** (el log) y ver cuántas cosas revisó.
+
+| Idea | Qué significa | Carpeta |
+|---|---|---|
+| 🧼 **Entorno limpio** | GitHub instala **solo** lo que dice `requirements.txt`. Lo que tienes instalado "de casualidad" en tu computador allá no existe. | `ci_inventario/` |
+| ⚙️ **Workflow** (`.github/workflows/ci.yml`) | La receta que sigue GitHub: traer el código, preparar Python, instalar, probar. | `ci_inventario/`, `plantilla_ci/` |
+| 🤥 **Verde mentiroso** | El job sale verde aunque no corrió ninguna prueba (archivo mal nombrado + `| tee` sin `pipefail`). | `ci_cero_pruebas/` |
+| 🔢 **Código de salida** | El número que deja un comando al terminar: `0` = éxito; otro = algo pasó. GitHub decide verde/rojo **solo** con ese número. | `ci_cero_pruebas/` |
+| 🧹 **Linter (Ruff)** | Lee el código **sin ejecutarlo** y encuentra errores: imports sin usar, variables olvidadas, funciones duplicadas, funciones muy complejas. | `hallazgo_ruff/`, `hallazgo_ruff_gemelo/` |
+| 📊 **Cobertura** | Qué líneas y ramas se **ejecutaron** durante las pruebas. Dice qué NO se probó, pero no si lo que sí se ejecutó se comprobó bien. | `cobertura_y_aserciones/` |
+| 🧟 **Mutantes** (otra vez) | Medir si las pruebas **detectan**: 100 % de cobertura y aun así los mutantes sobreviven. | `cobertura_y_aserciones/` |
+| 🌳 **Complejidad ciclomática** (`C901`) | Cuántos caminos distintos tiene una función. Muchos caminos = difícil de leer y de probar. | `practica_domicilios/` |
+
+Ideas para llevarse:
+
+- 🧼 **"En mi computador sí funciona" no es prueba.** Si una librería no está en `requirements.txt`, en el entorno limpio no existe.
+- 🔎 **Verde no significa "se probó".** En el log, busca siempre la línea con **cuántas pruebas pasaron** (`7 passed`). Si dice `no tests ran`, el verde es mentira.
+- 🔢 **GitHub solo mira el código de salida del último comando del pipe.** `pytest | tee` deja el código de `tee` (0). Con `shell: bash` o `set -o pipefail` el error de pytest no se esconde.
+- 🛠️ **Tres herramientas, tres preguntas distintas:**
+  - **Ruff:** ¿hay errores que se ven *sin ejecutar*?
+  - **Cobertura:** ¿qué partes *se ejecutaron*?
+  - **Aserciones / mutantes:** ¿las pruebas *comprueban* el resultado del negocio?
+- 📊 **Más cobertura no es mejor si las pruebas no afirman nada.** Una prueba que recorre todo sin `assert` da 100 % y no detecta ningún mutante.
+- 🌳 **Refactorizar = cambiar la forma sin cambiar el comportamiento.** Las pruebas son las que te avisan si lo cambiaste sin querer.
+
+## 📝 Ruta sugerida por las carpetas
+
+| Orden | Carpeta / archivo | Qué vas a ver |
+|---|---|---|
+| 0 | Preparar el entorno (`.venv` + `requirements-dev.txt`) | Instala pytest, pytest-cov, Ruff y unidecode. |
+| 1 | `ci_inventario/` | Un proyecto "de verdad": `src/`, `tests/`, `pytest.ini`, `requirements.txt` y el workflow. 7 pruebas en verde. |
+| 2 | `ci_inventario/` en un venv **limpio** | Falla porque falta `unidecode`. Y si quitas `pytest.ini`, no encuentra `producto`. |
+| 3 | `ci_cero_pruebas/` | 🤥 Verde con cero pruebas: `prueba_producto.py` no empieza por `test_` y `| tee` esconde el código 5. |
+| 4 | `hallazgo_ruff/` + `hallazgo_ruff_gemelo/` | 🫵 Sé el linter: 3 hallazgos en cada uno (F401, F841, F811). |
+| 5 | `cobertura_y_aserciones/` | 📊 100 % de cobertura que no detecta nada vs. 94 % que mata a los dos mutantes. |
+| 6 | `practica_domicilios/` | 🫵 Práctica: la tarifa de un domicilio, 75 % de cobertura y complejidad 17 (> 10). |
+| 7 | `plantilla_ci/` | `ci.yml` para tu proyecto; `ci_reto.yml` y `pre-commit` para el nivel reto. |
+
+Cada archivo tiene comentarios `# 📝` con la explicación, la salida esperada y preguntas de repaso al final. En los `.yml`, `.ini`, `.toml` y `requirements` las notas también van con `#` (es el comentario en esos formatos), así que **no cambian lo que hacen**.
+
+## 📝 Salidas esperadas (verificadas con Python 3.12, pytest 9.2 y Ruff 0.17.6)
+
+| Dónde | Comando | Resultado |
+|---|---|---|
+| `ci_inventario/` | `python -m pytest -v` | `7 passed` |
+| `ci_inventario/` (venv solo con pytest) | `python -m pytest -v` | `ModuleNotFoundError: No module named 'unidecode'` → `Interrupted: 1 error during collection` |
+| copia de `ci_inventario/` **sin** `pytest.ini` | `python -m pytest` | `No module named 'producto'` → `2 errors during collection` |
+| `ci_cero_pruebas/` | `python -m pytest -v; echo $?` | `no tests ran` · código **5** |
+| `ci_cero_pruebas/` | `python -m pytest -v \| tee salida_pytest.txt; echo $?` | `no tests ran` · código **0** 🤥 |
+| `hallazgo_ruff/` | `ruff check .` | `Found 3 errors.` (F401 `os`, F841 `codigo`, F811 `test_salida_valida`) |
+| `hallazgo_ruff_gemelo/` | `ruff check .` | `Found 3 errors.` (F401 `sys`, F841 `minimo`, F811 `alerta`) |
+| `cobertura_y_aserciones/` | `pytest tests/test_recorre_todo.py --cov...` | `1 passed` · **100 %** · mutante_1 y mutante_2 **SOBREVIVEN** |
+| `cobertura_y_aserciones/` | `pytest tests/test_con_aserciones.py --cov...` | `7 passed` · **94 %** (faltan `__repr__` y `__str__`) · mutante_1 y mutante_2 **MUEREN** |
+| `practica_domicilios/` | `python -m pytest -v` | `9 passed` |
+| `practica_domicilios/` | `pytest --cov=tarifa --cov-branch ...` | **75 %** con ramas sin cubrir |
+| `practica_domicilios/` | `ruff check .` | `C901 calcular_tarifa is too complex (17 > 10)` |
+
+💡 Los números de línea que salen en los reportes de cobertura y de Ruff cambian un poco por mis comentarios `# 📝` (las notas agregan líneas). Las notas de cada archivo dicen los números de **esta** copia.
+
+💡 Para que no se llene la carpeta de archivos sueltos: `.pytest_cache/`, `.coverage` y `.ruff_cache/` ya están en el `.gitignore` de la raíz.
+
+## 📝 Palabras clave
+
+- **Integración continua (CI):** que un servidor (aquí, GitHub Actions) instale y pruebe tu código **automáticamente** en cada `push` o pull request.
+- **Pipeline / workflow / job / step:** el workflow es el archivo `.yml`; adentro hay *jobs* (trabajos, como `pruebas`), y cada job tiene *steps* (pasos) que se ejecutan en orden.
+- **`runs-on: ubuntu-latest`:** el computador limpio (Linux) donde corre el job. Se crea nuevo en cada ejecución y se borra al final.
+- **`uses:` vs `run:`:** `uses` usa una acción ya hecha (`actions/checkout` trae el código, `actions/setup-python` instala Python); `run` ejecuta un comando de terminal.
+- **`requirements.txt`:** la lista de librerías que necesita el proyecto. `requirements-dev.txt` agrega las de desarrollo (cobertura, Ruff) e incluye la otra con `-r requirements.txt`.
+- **`pytest.ini`:** configuración de pytest. `pythonpath = src` → los `import` encuentran el código en `src/`; `testpaths = tests` → busca pruebas en `tests/`.
+- **Código de salida (exit code):** `0` éxito. En pytest: `1` alguna prueba falló, `2` interrumpido (por ejemplo, error al importar), `5` no encontró ninguna prueba. Se ve con `echo $?` (PowerShell: `$LASTEXITCODE`).
+- **Pipe (`|`) y `tee`:** `|` pasa la salida de un comando al siguiente; `tee` la muestra **y** la guarda en un archivo. El código que queda es el del **último** comando.
+- **`pipefail`:** opción de bash que hace que el pipe falle si **cualquiera** de sus comandos falla.
+- **Linter:** herramienta que revisa el código sin ejecutarlo. **Ruff** es un linter muy rápido para Python. Códigos: `F401` import sin usar, `F841` variable asignada y nunca usada, `F811` algo redefinido sin haber usado lo anterior, `C901` función demasiado compleja, `E…` estilo (pycodestyle).
+- **Cobertura (`pytest-cov`):** `--cov=modulo` mide ese módulo; `--cov-branch` también mide **ramas** (el "sí" y el "no" de cada `if`); `--cov-report=term-missing` muestra qué líneas faltan.
+- **Rama parcial (`58->61`):** el `if` de la línea 58 nunca tomó el camino que salta a la 61 (nunca fue falso).
+- **Complejidad ciclomática:** 1 + cada decisión (`if`, `elif`, `and`, `or`, bucles…). Ruff la mide con la regla `C901` y avisa si pasa de `max-complexity`.
+- **Regresión:** algo que funcionaba y deja de funcionar después de un cambio. La CI existe para atraparla antes de que llegue a producción.
+- **Refactorizar:** mejorar la forma del código (más legible, menos complejo) **sin** cambiar lo que hace.
+- **Matriz (`strategy.matrix`):** correr el mismo job con varias versiones (por ejemplo Python 3.11 y 3.14).
+- **`--cov-fail-under=80`:** hace que el pipeline falle si la cobertura baja de 80 %.
+- **pre-commit:** herramienta que corre revisiones (aquí Ruff) **en tu computador** antes de cada `git commit`.
+
+---
+
 # Encuentro 4 · Integración continua, calidad y regresión
 
 **Pregunta del día:** cuando el pipeline dice verde, ¿qué se ejecutó de verdad?

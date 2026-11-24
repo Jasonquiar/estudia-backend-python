@@ -1,1 +1,4 @@
+# 📝 MIS NOTAS (Encuentro 4 · 23 nov 2026)
+# 🎯 salida_pytest.txt lo crea el comando "| tee salida_pytest.txt". Es un resultado,
+#    no código: no se sube al repositorio. Por eso Git lo ignora.
 salida_pytest.txt
